@@ -1,0 +1,8 @@
+{
+  "name": "Remix Forex Trading Journal \u0026 Analytics",
+  "description": "Forex trading journal integrated with trading accounts, emotional and consistency tracking, entry/exit \u0026 TP/SL audit reasons, calendar heatmaps, and exportable performance audit reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

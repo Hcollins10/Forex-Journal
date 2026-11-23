@@ -36,14 +36,16 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Build Debug APK
+      - name: Generate Keystore & Build Signed APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          keytool -genkey -v -keystore release.keystore -alias forexjournal -keyalg RSA -keysize 2048 -validity 10000 -storepass password123 -keypass password123 -dname "CN=ForexJournal, OU=Dev, O=Hcollins, L=Kampala, S=Central, C=UG"
+          ./gradlew assembleRelease
+          $ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | tail -n 1)/apksigner sign --ks release.keystore --ks-pass pass:password123 --key-pass pass:password123 --out app/build/outputs/apk/release/ForexJournal-Signed.apk app/build/outputs/apk/release/app-release-unsigned.apk
 
-      - name: Upload APK
+      - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: ForexJournal-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: ForexJournal-Signed-APK
+          path: android/app/build/outputs/apk/release/ForexJournal-Signed.apk
